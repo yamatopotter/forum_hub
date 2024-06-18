@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: Forum-Hub
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/forum_hub
+    username: root
+    password: 12345678
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+server:
+  error:
+    include-stacktrace: never
+api:
+  token:
+    secret: ${JWT_SECRET:12345678}
