@@ -32,7 +32,7 @@ public class TopicoController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity delete(Long id) {
+    public ResponseEntity delete(@RequestParam Long id) {
         topicoService.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -40,19 +40,18 @@ public class TopicoController {
     @PutMapping
     @Transactional
     public ResponseEntity update(@RequestBody @Valid UpdateDataTopico topico) {
-        var topicoAtualizado = topicoService.update(topico);
+        var updatedTopico = topicoService.update(topico);
 
-        return ResponseEntity.ok(topicoAtualizado);
+        return ResponseEntity.ok(updatedTopico);
     }
 
     @GetMapping
     public ResponseEntity<Page<ListDataTopico>> list(@PageableDefault(size=10, sort={"dataCriacao"})Pageable paginacao) {
         return ResponseEntity.ok(topicoService.list(paginacao));
-
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity detail(Long id) {
+    public ResponseEntity detail(@RequestParam  Long id) {
         return ResponseEntity.ok(topicoService.detail(id));
     }
 }
