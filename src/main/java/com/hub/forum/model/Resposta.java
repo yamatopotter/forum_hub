@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity(name="Resposta")
 @Table(name="respostas")
@@ -26,4 +27,7 @@ public class Resposta {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="topico_id")
     private Topico topico;
+    @OneToMany(mappedBy = "respostaPai")
+    private List<RespostaFilha> respostas;
+    private Boolean ativo;
 }

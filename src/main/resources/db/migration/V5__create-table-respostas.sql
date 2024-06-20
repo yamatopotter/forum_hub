@@ -5,6 +5,7 @@ create table respostas(
     usuario_id bigint not null,
     solucao boolean not null,
     topico_id bigint not null,
+    excluido boolean not null,
 
     primary key(id),
     CONSTRAINT fk_topico_respostas FOREIGN KEY (topico_id) REFERENCES topicos(id),
