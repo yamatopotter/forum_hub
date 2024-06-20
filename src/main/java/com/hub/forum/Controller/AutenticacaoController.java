@@ -1,6 +1,6 @@
 package com.hub.forum.Controller;
 
-import com.hub.forum.DTO.DadosAutenticacao;
+import com.hub.forum.DTO.Autenticacao.DadosAutenticacao;
 import com.hub.forum.infra.security.TokenDados;
 import com.hub.forum.infra.security.TokenService;
 import com.hub.forum.model.Usuario;

@@ -1,4 +1,4 @@
-package com.hub.forum.DTO;
+package com.hub.forum.DTO.Cadastro;
 
 public record DadosCadastro(String nome,
                             String email,

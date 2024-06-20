@@ -5,5 +5,6 @@ create table perfils(
     primary key(id)
 );
 
-insert into perfils values (null, "USER");
 insert into perfils values (null, "ADMIN");
+insert into perfils values (null, "MODERATOR");
+insert into perfils values (null, "USER");

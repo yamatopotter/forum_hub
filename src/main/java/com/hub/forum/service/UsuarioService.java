@@ -1,7 +1,7 @@
 package com.hub.forum.service;
 
-import com.hub.forum.DTO.DadosCadastro;
-import com.hub.forum.DTO.DadosUsuario;
+import com.hub.forum.DTO.Cadastro.DadosCadastro;
+import com.hub.forum.DTO.Usuario.DataUsuario;
 import com.hub.forum.infra.security.SecurityConfiguration;
 import com.hub.forum.model.Usuario;
 import com.hub.forum.repository.PerfilRepository;
@@ -18,7 +18,7 @@ public class UsuarioService {
     @Autowired
     private SecurityConfiguration securityConfiguration;
 
-    public DadosUsuario cadastrarNovoUsuario(DadosCadastro dados){
+    public DataUsuario cadastrarNovoUsuario(DadosCadastro dados){
         var passwordEncrypter = securityConfiguration.passwordEncoder();
         var userPerfil = perfilRepository.findByNome("USER");
 
@@ -29,7 +29,7 @@ public class UsuarioService {
         System.out.println(usuario);
         usuarioRepository.save(usuario);
 
-        return new DadosUsuario(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getPerfil().getNome());
+        return new DataUsuario(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getPerfil().getNome());
     }
 
 }

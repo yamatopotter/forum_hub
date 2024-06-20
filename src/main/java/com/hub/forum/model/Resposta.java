@@ -17,6 +17,7 @@ public class Resposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String mensagem;
+    @Column(name="data_criacao")
     private LocalDateTime dataCriacao;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="usuario_id")
