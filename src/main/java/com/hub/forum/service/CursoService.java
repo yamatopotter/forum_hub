@@ -22,7 +22,7 @@ public class CursoService {
     private UsuarioRepository usuarioRepository;
 
     public DataCurso create(@Valid CreateDataCurso curso) {
-        validationOfPermission();
+        isAdmin();
 
         Curso newCurso = new Curso(null, curso.nome(), curso.categoria(), true);
         cursoRepository.save(newCurso);
@@ -30,7 +30,7 @@ public class CursoService {
         return new DataCurso(newCurso);
     }
 
-    private void validationOfPermission() {
+    private void isAdmin() {
         Usuario usuarioLogado = usuarioRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         if (!usuarioLogado.getPerfil().getNome().equals("ADMIN")) {
@@ -43,7 +43,7 @@ public class CursoService {
     }
 
     public void delete(Long id) {
-        validationOfPermission();
+        isAdmin();
 
         Curso curso = cursoRepository.getReferenceById(id);
         curso.delete();
@@ -51,7 +51,7 @@ public class CursoService {
 
 
     public DataCurso update(UpdateDataCurso curso) {
-        validationOfPermission();
+        isAdmin();
 
         Curso updateCurso = cursoRepository.getReferenceById(curso.id());
         updateCurso.update(curso);

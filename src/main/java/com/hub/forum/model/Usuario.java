@@ -1,5 +1,7 @@
 package com.hub.forum.model;
 
+import com.hub.forum.DTO.Usuario.UpdateDataUsuario;
+import com.hub.forum.infra.security.SecurityConfiguration;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -29,6 +31,7 @@ public class Usuario implements UserDetails {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="perfil_id")
     private Perfil perfil;
+    private Boolean ativo;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -74,5 +77,53 @@ public class Usuario implements UserDetails {
                 ", senha='" + senha + '\'' +
                 ", perfil=" + perfil +
                 '}';
+    }
+
+    public void delete(){
+        this.ativo = false;
+    }
+
+    public void activate(){
+        this.ativo = true;
+    }
+
+    public void update(UpdateDataUsuario usuario){
+        if(usuario.nome() != null){
+            this.nome = usuario.nome();
+        }
+
+        if(usuario.email() != null){
+            this.email = usuario.email();
+        }
+
+        if(usuario.senha() != null){
+            this.senha = usuario.senha();
+        }
+
+        if(usuario.ativo() != null){
+            this.ativo = usuario.ativo();
+        }
+    }
+
+    public void update(UpdateDataUsuario usuario, Perfil perfil){
+        if(usuario.nome() != null){
+            this.nome = usuario.nome();
+        }
+
+        if(usuario.email() != null){
+            this.email = usuario.email();
+        }
+
+        if(usuario.senha() != null){
+            this.senha = usuario.senha();
+        }
+
+        if(usuario.perfilId() != null){
+            this.perfil = perfil;
+        }
+
+        if(usuario.ativo() != null){
+            this.ativo = usuario.ativo();
+        }
     }
 }
