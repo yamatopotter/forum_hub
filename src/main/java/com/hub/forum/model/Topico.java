@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name="topicos")
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of="id")
 public class Topico {
     @Id
@@ -33,7 +35,7 @@ public class Topico {
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Resposta> respostas;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="resposta_id")
+    @JoinColumn(name="solucao_id")
     private Resposta solucao;
     private Boolean ativo;
 
@@ -53,5 +55,14 @@ public class Topico {
         if(curso != null){
             this.curso = curso;
         }
+    }
+
+    public void isSolucao(Resposta resposta) {
+        this.solucao = resposta;
+        this.status = Status.SOLVED;
+    }
+
+    public void closeTopico(){
+        this.status = Status.CLOSED;
     }
 }

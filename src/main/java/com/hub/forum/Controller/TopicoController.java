@@ -1,9 +1,13 @@
 package com.hub.forum.Controller;
 
+import com.hub.forum.DTO.Resposta.CreateResposta;
+import com.hub.forum.DTO.Resposta.CreateRespostaWithoutParent;
+import com.hub.forum.DTO.Resposta.CreatedRespostaFromTopico;
 import com.hub.forum.DTO.Topico.CreateDataTopico;
 import com.hub.forum.DTO.Topico.CreatedTopico;
 import com.hub.forum.DTO.Topico.ListDataTopico;
 import com.hub.forum.DTO.Topico.UpdateDataTopico;
+import com.hub.forum.service.RespostaService;
 import com.hub.forum.service.TopicoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -30,9 +34,18 @@ public class TopicoController {
         return ResponseEntity.created(uri).body(createdTopico);
     }
 
+    @PostMapping("/{id}/resposta")
+    @Transactional
+    public ResponseEntity createResposta(@RequestBody @Valid CreateRespostaWithoutParent resposta, @PathVariable Long id, UriComponentsBuilder uriBuilder) {
+        CreatedRespostaFromTopico createdResposta = topicoService.createNewResposta(resposta, id);
+        var uri = uriBuilder.path("/topico/{id}").buildAndExpand(createdResposta.id()).toUri();
+
+        return ResponseEntity.created(uri).body(createdResposta);
+    }
+
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity delete(@RequestParam Long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
         topicoService.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -46,12 +59,12 @@ public class TopicoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ListDataTopico>> list(@PageableDefault(size=10, sort={"dataCriacao"})Pageable paginacao) {
+    public ResponseEntity<Page<ListDataTopico>> list(@PageableDefault(size = 10, sort = {"dataCriacao"}) Pageable paginacao) {
         return ResponseEntity.ok(topicoService.list(paginacao));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity detail(@RequestParam  Long id) {
+    public ResponseEntity detail(@PathVariable Long id) {
         return ResponseEntity.ok(topicoService.detail(id));
     }
 }

@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-@Entity
+@Entity(name="RespostaFilha")
 @Table(name = "respostas_filhas")
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class RespostaFilha {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resposta_pai_id")

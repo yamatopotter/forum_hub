@@ -6,6 +6,7 @@ import com.hub.forum.DTO.Resposta.DetailDataResposta;
 import com.hub.forum.model.Resposta;
 import com.hub.forum.model.Usuario;
 import com.hub.forum.repository.RespostaRepository;
+import com.hub.forum.repository.TopicoRepository;
 import com.hub.forum.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +20,8 @@ public class RespostaService {
     private RespostaRepository respostaRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private TopicoRepository topicoRepository;
 
     public CreatedRespostaFromResposta create(CreateResposta resposta) {
         var parentResponse = respostaRepository.getReferenceById(resposta.respostaId());
@@ -31,8 +34,47 @@ public class RespostaService {
     }
 
     public DetailDataResposta edit(String mensagem, Long id) {
-        var editResposta = respostaRepository.getReferenceById(id);
+        Resposta editResposta = respostaRepository.getReferenceById(id);
+        editResposta.update(mensagem);
+
+        return new DetailDataResposta(editResposta);
+    }
 
 
+    public DetailDataResposta detail(Long id) {
+        return new DetailDataResposta(respostaRepository.getReferenceById(id));
+    }
+
+    public void delete(Long id) {
+        Resposta resposta = respostaRepository.getReferenceById(id);
+
+        if(resposta.getRespostas().size()>0){
+           throw new IllegalArgumentException("Essa resposta não pode ser excluida por conter outras respostas");
+        }
+        else{
+            validationOfUpdate(resposta.getAutor().getId());
+            resposta.delete();
+        }
+    }
+
+    private void validationOfUpdate(Long usuarioId) {
+        Usuario usuarioLogado = usuarioRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if (!usuarioLogado.getId().equals(usuarioId) || !usuarioLogado.getPerfil().getNome().equals("ADMIN") || !usuarioLogado.getPerfil().getNome().equals("MODERATOR")) {
+            try {
+                throw new IllegalAccessException("Acesso negado!");
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void setAsSolution(Long id) {
+        var resposta = respostaRepository.getReferenceById(id);
+        var topico = topicoRepository.getReferenceById(resposta.getTopico().getId());
+        validationOfUpdate(topico.getId());
+
+        resposta.isSolucao();
+        topico.isSolucao(resposta);
     }
 }

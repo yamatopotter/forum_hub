@@ -1,11 +1,11 @@
 package com.hub.forum.service;
 
+import com.hub.forum.DTO.Resposta.CreateRespostaWithoutParent;
+import com.hub.forum.DTO.Resposta.CreatedRespostaFromTopico;
 import com.hub.forum.DTO.Topico.*;
-import com.hub.forum.model.Curso;
-import com.hub.forum.model.Status;
-import com.hub.forum.model.Topico;
-import com.hub.forum.model.Usuario;
+import com.hub.forum.model.*;
 import com.hub.forum.repository.CursoRepository;
+import com.hub.forum.repository.RespostaRepository;
 import com.hub.forum.repository.TopicoRepository;
 import com.hub.forum.repository.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -25,6 +25,8 @@ public class TopicoService {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private CursoRepository cursoRepository;
+    @Autowired
+    private RespostaRepository respostaRepository;
 
     public CreatedTopico create(@Valid CreateDataTopico topico) {
         Usuario usuarioLogado = usuarioRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -88,4 +90,15 @@ public class TopicoService {
             }
         }
     }
+
+    public CreatedRespostaFromTopico createNewResposta(@Valid CreateRespostaWithoutParent resposta, Long id) {
+        Usuario usuarioLogado = usuarioRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        Topico topico = topicoRepository.getReferenceById(id);
+        Resposta newResposta = new Resposta(null, resposta.mensagem(), LocalDateTime.now(), usuarioLogado, false, topico, null,true);
+
+        respostaRepository.save(newResposta);
+        return new CreatedRespostaFromTopico(newResposta);
+    }
+
+
 }

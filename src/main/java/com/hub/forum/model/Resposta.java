@@ -30,4 +30,14 @@ public class Resposta {
     @OneToMany(mappedBy = "respostaPai")
     private List<RespostaFilha> respostas;
     private Boolean ativo;
+
+    public void update(String mensagem){
+        if(!mensagem.isEmpty()){
+            this.mensagem = mensagem;
+        }
+    }
+
+    public void delete() {
+        this.ativo = false;
+    }
 }

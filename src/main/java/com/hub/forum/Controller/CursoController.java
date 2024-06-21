@@ -32,7 +32,7 @@ public class CursoController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity delete(@RequestParam Long id){
+    public ResponseEntity delete(@PathVariable Long id){
         cursoService.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -51,7 +51,7 @@ public class CursoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity detail(@RequestParam Long id){
+    public ResponseEntity detail(@PathVariable Long id){
         return ResponseEntity.ok(cursoService.detail(id));
     }
 }

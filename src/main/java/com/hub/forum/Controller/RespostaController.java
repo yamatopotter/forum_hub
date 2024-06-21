@@ -28,7 +28,29 @@ public class RespostaController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity edit(@RequestBody String mensagem, @RequestParam Long id){
+    public ResponseEntity edit(@RequestBody String mensagem, @PathVariable Long id){
         var updatedResposta = respostaService.edit(mensagem, id);
+
+        return ResponseEntity.ok(updatedResposta);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity detail(@PathVariable Long id){
+        return ResponseEntity.ok(respostaService.detail(id));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity delete(@PathVariable Long id){
+        respostaService.delete(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/solucao")
+    @Transactional
+    public ResponseEntity setAsSolution(@PathVariable Long id){
+        respostaService.setAsSolution(id);
+        return ResponseEntity.noContent().build();
     }
 }
