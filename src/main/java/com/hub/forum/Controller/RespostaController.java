@@ -1,6 +1,6 @@
 package com.hub.forum.Controller;
 
-import com.hub.forum.DTO.Resposta.CreateResposta;
+import com.hub.forum.DTO.Resposta.MensagemResposta;
 import com.hub.forum.DTO.Resposta.CreatedRespostaFromResposta;
 import com.hub.forum.service.RespostaService;
 import jakarta.transaction.Transactional;
@@ -16,10 +16,10 @@ public class RespostaController {
     @Autowired
     private RespostaService respostaService;
 
-    @PostMapping
+    @PostMapping("/{id}")
     @Transactional
-    public ResponseEntity create(@RequestBody @Valid CreateResposta resposta, UriComponentsBuilder uriBuilder){
-        CreatedRespostaFromResposta createdResposta = respostaService.create(resposta);
+    public ResponseEntity createRespostaWithParent(@RequestBody @Valid MensagemResposta resposta, @PathVariable Long id, UriComponentsBuilder uriBuilder){
+        CreatedRespostaFromResposta createdResposta = respostaService.create(resposta.mensagem(), id);
 
         var uri = uriBuilder.path("/resposta/{id}").buildAndExpand(createdResposta.id()).toUri();
 
@@ -28,8 +28,8 @@ public class RespostaController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity edit(@RequestBody String mensagem, @PathVariable Long id){
-        var updatedResposta = respostaService.edit(mensagem, id);
+    public ResponseEntity edit(@RequestBody @Valid MensagemResposta resposta, @PathVariable Long id){
+        var updatedResposta = respostaService.edit(resposta.mensagem(), id);
 
         return ResponseEntity.ok(updatedResposta);
     }

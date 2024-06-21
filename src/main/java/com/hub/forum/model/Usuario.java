@@ -3,10 +3,7 @@ package com.hub.forum.model;
 import com.hub.forum.DTO.Usuario.UpdateDataUsuario;
 import com.hub.forum.infra.security.SecurityConfiguration;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +14,7 @@ import java.util.List;
 @Entity(name="Usuario")
 @Table(name="usuarios")
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of="id")
@@ -28,7 +26,7 @@ public class Usuario implements UserDetails {
     @Column(unique=true)
     private String email;
     private String senha;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="perfil_id")
     private Perfil perfil;
     private Boolean ativo;

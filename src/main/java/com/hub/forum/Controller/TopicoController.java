@@ -1,13 +1,11 @@
 package com.hub.forum.Controller;
 
-import com.hub.forum.DTO.Resposta.CreateResposta;
 import com.hub.forum.DTO.Resposta.CreateRespostaWithoutParent;
 import com.hub.forum.DTO.Resposta.CreatedRespostaFromTopico;
 import com.hub.forum.DTO.Topico.CreateDataTopico;
 import com.hub.forum.DTO.Topico.CreatedTopico;
 import com.hub.forum.DTO.Topico.ListDataTopico;
 import com.hub.forum.DTO.Topico.UpdateDataTopico;
-import com.hub.forum.service.RespostaService;
 import com.hub.forum.service.TopicoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -38,7 +36,7 @@ public class TopicoController {
     @Transactional
     public ResponseEntity createResposta(@RequestBody @Valid CreateRespostaWithoutParent resposta, @PathVariable Long id, UriComponentsBuilder uriBuilder) {
         CreatedRespostaFromTopico createdResposta = topicoService.createNewResposta(resposta, id);
-        var uri = uriBuilder.path("/topico/{id}").buildAndExpand(createdResposta.id()).toUri();
+        var uri = uriBuilder.path("/resposta/{id}").buildAndExpand(createdResposta.id()).toUri();
 
         return ResponseEntity.created(uri).body(createdResposta);
     }

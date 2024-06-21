@@ -1,13 +1,15 @@
 package com.hub.forum.service;
 
-import com.hub.forum.DTO.Resposta.CreateResposta;
 import com.hub.forum.DTO.Resposta.CreatedRespostaFromResposta;
 import com.hub.forum.DTO.Resposta.DetailDataResposta;
 import com.hub.forum.model.Resposta;
+import com.hub.forum.model.RespostaFilha;
 import com.hub.forum.model.Usuario;
+import com.hub.forum.repository.RespostaFilhaRepository;
 import com.hub.forum.repository.RespostaRepository;
 import com.hub.forum.repository.TopicoRepository;
 import com.hub.forum.repository.UsuarioRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,22 +21,28 @@ public class RespostaService {
     @Autowired
     private RespostaRepository respostaRepository;
     @Autowired
+    private RespostaFilhaRepository respostaFilhaRepository;
+    @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
     private TopicoRepository topicoRepository;
 
-    public CreatedRespostaFromResposta create(CreateResposta resposta) {
-        var parentResponse = respostaRepository.getReferenceById(resposta.respostaId());
+    public CreatedRespostaFromResposta create(String mensagem, Long id) {
+        Resposta parentResponse = respostaRepository.getReferenceById(id);
         Usuario usuarioLogado = usuarioRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        var newResponse = new Resposta(null, resposta.mensagem(), LocalDateTime.now(), usuarioLogado, false, parentResponse.getTopico(), null, true);
+        Resposta newResponse = new Resposta(null, mensagem, LocalDateTime.now(), usuarioLogado, false, parentResponse.getTopico(), null, true);
         respostaRepository.save(newResponse);
+
+        var newRespostaFilha = new RespostaFilha(null, parentResponse, newResponse);
+        respostaFilhaRepository.save(newRespostaFilha);
 
         return new CreatedRespostaFromResposta(newResponse, parentResponse);
     }
 
     public DetailDataResposta edit(String mensagem, Long id) {
         Resposta editResposta = respostaRepository.getReferenceById(id);
+        validationOfUpdate(editResposta.getAutor().getId());
         editResposta.update(mensagem);
 
         return new DetailDataResposta(editResposta);
@@ -60,7 +68,7 @@ public class RespostaService {
     private void validationOfUpdate(Long usuarioId) {
         Usuario usuarioLogado = usuarioRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        if (!usuarioLogado.getId().equals(usuarioId) || !usuarioLogado.getPerfil().getNome().equals("ADMIN") || !usuarioLogado.getPerfil().getNome().equals("MODERATOR")) {
+        if (!usuarioLogado.getId().equals(usuarioId) && !usuarioLogado.getPerfil().getNome().equals("ADMIN") && !usuarioLogado.getPerfil().getNome().equals("MODERATOR")) {
             try {
                 throw new IllegalAccessException("Acesso negado!");
             } catch (IllegalAccessException e) {
@@ -72,7 +80,7 @@ public class RespostaService {
     public void setAsSolution(Long id) {
         var resposta = respostaRepository.getReferenceById(id);
         var topico = topicoRepository.getReferenceById(resposta.getTopico().getId());
-        validationOfUpdate(topico.getId());
+        validationOfUpdate(topico.getUsuario().getId());
 
         resposta.isSolucao();
         topico.isSolucao(resposta);

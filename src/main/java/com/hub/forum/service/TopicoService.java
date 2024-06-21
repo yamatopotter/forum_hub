@@ -91,9 +91,9 @@ public class TopicoService {
         }
     }
 
-    public CreatedRespostaFromTopico createNewResposta(@Valid CreateRespostaWithoutParent resposta, Long id) {
+    public CreatedRespostaFromTopico createNewResposta(CreateRespostaWithoutParent resposta, Long id) {
         Usuario usuarioLogado = usuarioRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        Topico topico = topicoRepository.getReferenceById(id);
+        Topico topico = topicoRepository.findById(id).get();
         Resposta newResposta = new Resposta(null, resposta.mensagem(), LocalDateTime.now(), usuarioLogado, false, topico, null,true);
 
         respostaRepository.save(newResposta);

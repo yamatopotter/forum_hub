@@ -1,6 +1,8 @@
 package com.hub.forum.DTO.Cadastro;
 
-public record DadosCadastro(String nome,
-                            String email,
-                            String senha) {
+import jakarta.validation.constraints.NotNull;
+
+public record DadosCadastro(@NotNull String nome,
+                            @NotNull String email,
+                            @NotNull String senha) {
 }
