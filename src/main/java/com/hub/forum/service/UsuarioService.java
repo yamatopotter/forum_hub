@@ -1,13 +1,14 @@
 package com.hub.forum.service;
 
-import com.hub.forum.DTO.Cadastro.DadosCadastro;
-import com.hub.forum.DTO.Curso.DataCurso;
+import com.hub.forum.DTO.Cadastro.DataCadastro;
+import com.hub.forum.DTO.Cadastro.DataCadastroFromAdmin;
 import com.hub.forum.DTO.Usuario.DataUsuario;
 import com.hub.forum.DTO.Usuario.UpdateDataUsuario;
 import com.hub.forum.infra.security.SecurityConfiguration;
 import com.hub.forum.model.Usuario;
 import com.hub.forum.repository.PerfilRepository;
 import com.hub.forum.repository.UsuarioRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,7 @@ public class UsuarioService {
     @Autowired
     private SecurityConfiguration securityConfiguration;
 
-    public DataUsuario cadastrarNovoUsuario(DadosCadastro dados){
+    public DataUsuario cadastrarNovoUsuario(DataCadastro dados){
         var passwordEncrypter = securityConfiguration.passwordEncoder();
         var userPerfil = perfilRepository.findByNome("USER");
         var usuario = new Usuario(null, dados.nome(), dados.email(), passwordEncrypter.encode(dados.senha()), userPerfil, true);
@@ -91,5 +92,14 @@ public class UsuarioService {
 
     public DataUsuario detail(Long id) {
         return new DataUsuario(usuarioRepository.getReferenceById(id));
+    }
+
+    public DataUsuario create(DataCadastroFromAdmin dataCadastroFromAdmin) {
+        var passwordEncrypter = securityConfiguration.passwordEncoder();
+        var userPerfil = perfilRepository.findByNome(dataCadastroFromAdmin.perfilName().toUpperCase());
+        var usuario = new Usuario(null, dataCadastroFromAdmin.nome(), dataCadastroFromAdmin.email(), passwordEncrypter.encode(dataCadastroFromAdmin.senha()), userPerfil, true);
+        usuarioRepository.save(usuario);
+
+        return new DataUsuario(usuario);
     }
 }

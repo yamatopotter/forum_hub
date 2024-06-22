@@ -1,6 +1,6 @@
 package com.hub.forum.Controller;
 
-import com.hub.forum.DTO.Cadastro.DadosCadastro;
+import com.hub.forum.DTO.Cadastro.DataCadastro;
 import com.hub.forum.service.UsuarioService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -20,7 +20,7 @@ public class CadastroController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity efetuarCadastro(@RequestBody @Valid DadosCadastro dados, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity efetuarCadastro(@RequestBody @Valid DataCadastro dados, UriComponentsBuilder uriComponentsBuilder) {
         var usuario = usuarioService.cadastrarNovoUsuario(dados);
 
         var uri = uriComponentsBuilder.path("/usuario/{id}").buildAndExpand(usuario.id()).toUri();

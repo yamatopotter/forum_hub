@@ -1,6 +1,6 @@
 package com.hub.forum.Controller;
 
-import com.hub.forum.DTO.Autenticacao.DadosAutenticacao;
+import com.hub.forum.DTO.Autenticacao.DataAutenticacao;
 import com.hub.forum.infra.security.TokenDados;
 import com.hub.forum.infra.security.TokenService;
 import com.hub.forum.model.Usuario;
@@ -24,7 +24,7 @@ public class AutenticacaoController {
     private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
+    public ResponseEntity efetuarLogin(@RequestBody @Valid DataAutenticacao dados) {
         try {
             var authenticationToken = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
             var authentication = manager.authenticate(authenticationToken);
