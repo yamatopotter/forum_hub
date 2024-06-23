@@ -9,6 +9,7 @@ import com.hub.forum.model.Usuario;
 import com.hub.forum.repository.PerfilRepository;
 import com.hub.forum.repository.UsuarioRepository;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
