@@ -1,14 +1,13 @@
 package com.hub.forum.service;
 
-import com.hub.forum.DTO.Cadastro.DataCadastro;
-import com.hub.forum.DTO.Cadastro.DataCadastroFromAdmin;
-import com.hub.forum.DTO.Usuario.DataUsuario;
-import com.hub.forum.DTO.Usuario.UpdateDataUsuario;
+import com.hub.forum.domain.DTO.Cadastro.DataCadastro;
+import com.hub.forum.domain.DTO.Cadastro.DataCadastroFromAdmin;
+import com.hub.forum.domain.DTO.Usuario.DataUsuario;
+import com.hub.forum.domain.DTO.Usuario.UpdateDataUsuario;
 import com.hub.forum.infra.security.SecurityConfiguration;
-import com.hub.forum.model.Usuario;
+import com.hub.forum.domain.model.Usuario;
 import com.hub.forum.repository.PerfilRepository;
 import com.hub.forum.repository.UsuarioRepository;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

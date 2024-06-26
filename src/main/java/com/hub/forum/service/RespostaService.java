@@ -1,15 +1,15 @@
 package com.hub.forum.service;
 
-import com.hub.forum.DTO.Resposta.CreatedRespostaFromResposta;
-import com.hub.forum.DTO.Resposta.DetailDataResposta;
-import com.hub.forum.model.Resposta;
-import com.hub.forum.model.RespostaFilha;
-import com.hub.forum.model.Usuario;
+import com.hub.forum.domain.DTO.Resposta.CreatedRespostaFromResposta;
+import com.hub.forum.domain.DTO.Resposta.DetailDataResposta;
+import com.hub.forum.domain.ValidacaoException;
+import com.hub.forum.domain.model.Resposta;
+import com.hub.forum.domain.model.RespostaFilha;
+import com.hub.forum.domain.model.Usuario;
 import com.hub.forum.repository.RespostaFilhaRepository;
 import com.hub.forum.repository.RespostaRepository;
 import com.hub.forum.repository.TopicoRepository;
 import com.hub.forum.repository.UsuarioRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -56,8 +56,8 @@ public class RespostaService {
     public void delete(Long id) {
         Resposta resposta = respostaRepository.getReferenceById(id);
 
-        if(resposta.getRespostas().size()>0){
-           throw new IllegalArgumentException("Essa resposta não pode ser excluida por conter outras respostas");
+        if(!resposta.getRespostas().isEmpty()){
+           throw new ValidacaoException("Essa resposta não pode ser excluida por conter outras respostas");
         }
         else{
             validationOfUpdate(resposta.getAutor().getId());

@@ -1,8 +1,8 @@
 package com.hub.forum.Controller;
 
-import com.hub.forum.DTO.Curso.CreateDataCurso;
-import com.hub.forum.DTO.Curso.DataCurso;
-import com.hub.forum.DTO.Curso.UpdateDataCurso;
+import com.hub.forum.domain.DTO.Curso.CreateDataCurso;
+import com.hub.forum.domain.DTO.Curso.DataCurso;
+import com.hub.forum.domain.DTO.Curso.UpdateDataCurso;
 import com.hub.forum.service.CursoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

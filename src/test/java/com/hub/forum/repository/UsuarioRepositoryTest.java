@@ -1,7 +1,7 @@
 package com.hub.forum.repository;
 
-import com.hub.forum.model.Perfil;
-import com.hub.forum.model.Usuario;
+import com.hub.forum.domain.model.Perfil;
+import com.hub.forum.domain.model.Usuario;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

@@ -1,7 +1,7 @@
 package com.hub.forum.infra.configs;
 
 import com.hub.forum.infra.security.SecurityConfiguration;
-import com.hub.forum.model.Usuario;
+import com.hub.forum.domain.model.Usuario;
 import com.hub.forum.repository.PerfilRepository;
 import com.hub.forum.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

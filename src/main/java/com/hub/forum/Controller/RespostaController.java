@@ -1,7 +1,7 @@
 package com.hub.forum.Controller;
 
-import com.hub.forum.DTO.Resposta.MensagemResposta;
-import com.hub.forum.DTO.Resposta.CreatedRespostaFromResposta;
+import com.hub.forum.domain.DTO.Resposta.MensagemResposta;
+import com.hub.forum.domain.DTO.Resposta.CreatedRespostaFromResposta;
 import com.hub.forum.service.RespostaService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

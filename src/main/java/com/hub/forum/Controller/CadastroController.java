@@ -1,6 +1,6 @@
 package com.hub.forum.Controller;
 
-import com.hub.forum.DTO.Cadastro.DataCadastro;
+import com.hub.forum.domain.DTO.Cadastro.DataCadastro;
 import com.hub.forum.service.UsuarioService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

@@ -1,11 +1,11 @@
 package com.hub.forum.Controller;
 
-import com.hub.forum.DTO.Resposta.CreateRespostaWithoutParent;
-import com.hub.forum.DTO.Resposta.CreatedRespostaFromTopico;
-import com.hub.forum.DTO.Topico.CreateDataTopico;
-import com.hub.forum.DTO.Topico.CreatedTopico;
-import com.hub.forum.DTO.Topico.ListDataTopico;
-import com.hub.forum.DTO.Topico.UpdateDataTopico;
+import com.hub.forum.domain.DTO.Resposta.CreateRespostaWithoutParent;
+import com.hub.forum.domain.DTO.Resposta.CreatedRespostaFromTopico;
+import com.hub.forum.domain.DTO.Topico.CreateDataTopico;
+import com.hub.forum.domain.DTO.Topico.CreatedTopico;
+import com.hub.forum.domain.DTO.Topico.ListDataTopico;
+import com.hub.forum.domain.DTO.Topico.UpdateDataTopico;
 import com.hub.forum.service.TopicoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

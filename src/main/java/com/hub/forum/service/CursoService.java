@@ -1,10 +1,11 @@
 package com.hub.forum.service;
 
-import com.hub.forum.DTO.Curso.CreateDataCurso;
-import com.hub.forum.DTO.Curso.DataCurso;
-import com.hub.forum.DTO.Curso.UpdateDataCurso;
-import com.hub.forum.model.Curso;
-import com.hub.forum.model.Usuario;
+import com.hub.forum.domain.DTO.Curso.CreateDataCurso;
+import com.hub.forum.domain.DTO.Curso.DataCurso;
+import com.hub.forum.domain.DTO.Curso.UpdateDataCurso;
+import com.hub.forum.domain.ValidacaoException;
+import com.hub.forum.domain.model.Curso;
+import com.hub.forum.domain.model.Usuario;
 import com.hub.forum.repository.CursoRepository;
 import com.hub.forum.repository.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -34,11 +35,7 @@ public class CursoService {
         Usuario usuarioLogado = usuarioRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         if (!usuarioLogado.getPerfil().getNome().equals("ADMIN")) {
-            try {
-                throw new IllegalAccessException("Acesso negado!");
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+            throw new ValidacaoException("Acesso negado!");
         }
     }
 
