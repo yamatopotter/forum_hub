@@ -1,4 +1,4 @@
-package com.hub.forum.Controller;
+package com.hub.forum.controller;
 
 import com.hub.forum.domain.DTO.Cadastro.DataCadastro;
 import com.hub.forum.service.UsuarioService;

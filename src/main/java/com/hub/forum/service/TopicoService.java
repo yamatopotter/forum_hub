@@ -4,7 +4,6 @@ import com.hub.forum.domain.DTO.Resposta.CreateRespostaWithoutParent;
 import com.hub.forum.domain.DTO.Resposta.CreatedRespostaFromTopico;
 import com.hub.forum.domain.DTO.Topico.*;
 import com.hub.forum.domain.model.*;
-import com.hub.forum.model.*;
 import com.hub.forum.repository.CursoRepository;
 import com.hub.forum.repository.RespostaRepository;
 import com.hub.forum.repository.TopicoRepository;
@@ -83,7 +82,7 @@ public class TopicoService {
     private void validationOfUpdate(Long usuarioId) {
         Usuario usuarioLogado = usuarioRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        if (!usuarioLogado.getId().equals(usuarioId) || !usuarioLogado.getPerfil().getNome().equals("ADMIN") || !usuarioLogado.getPerfil().getNome().equals("MODERATOR")) {
+        if (!usuarioLogado.getId().equals(usuarioId) && !usuarioLogado.getPerfil().getNome().equals("ADMIN") && !usuarioLogado.getPerfil().getNome().equals("MODERATOR")) {
             try {
                 throw new IllegalAccessException("Acesso negado!");
             } catch (IllegalAccessException e) {

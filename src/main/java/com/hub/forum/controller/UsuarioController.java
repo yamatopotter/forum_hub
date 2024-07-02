@@ -1,4 +1,4 @@
-package com.hub.forum.Controller;
+package com.hub.forum.controller;
 
 import com.hub.forum.domain.DTO.Cadastro.DataCadastroFromAdmin;
 import com.hub.forum.domain.DTO.Usuario.DataUsuario;
@@ -22,8 +22,8 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity delete(@RequestParam Long id) {
-        usuarioService.delete(id);
+    public ResponseEntity delete(@PathVariable(value="id") Long id) {
+        usuarioService.delete(id.longValue());
         return ResponseEntity.noContent().build();
     }
 
@@ -40,7 +40,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity detail(Long id) {
+    public ResponseEntity detail(@PathVariable(value="id") Long id) {
         return ResponseEntity.ok(usuarioService.detail(id));
     }
 

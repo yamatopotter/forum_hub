@@ -1,4 +1,4 @@
-package com.hub.forum.Controller;
+package com.hub.forum.controller;
 
 import com.hub.forum.domain.DTO.Resposta.MensagemResposta;
 import com.hub.forum.domain.DTO.Resposta.CreatedRespostaFromResposta;
