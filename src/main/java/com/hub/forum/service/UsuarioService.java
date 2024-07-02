@@ -49,7 +49,7 @@ public class UsuarioService {
     private void validationOfPermission(Long usuarioId) {
         Usuario usuarioLogado = usuarioRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        if (!usuarioLogado.getId().equals(usuarioId) || !usuarioLogado.getPerfil().getNome().equals("ADMIN")) {
+        if (!usuarioLogado.getId().equals(usuarioId) && !usuarioLogado.getPerfil().getNome().equals("ADMIN")) {
             try {
                 throw new IllegalAccessException("Acesso negado!");
             } catch (IllegalAccessException e) {
