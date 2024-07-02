@@ -3,11 +3,11 @@ spring:
     name: Forum-Hub
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/forum_hub
-    username: root
-    password: 12345678
+    url: ${DB_URL:jdbc:mysql://localhost:3306/forum_hub}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:12345678}
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
