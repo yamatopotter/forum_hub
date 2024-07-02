@@ -1,5 +1,6 @@
 package com.hub.forum.infra.exception;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.hub.forum.domain.ValidacaoException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -62,5 +63,10 @@ public class TratadorDeErros {
     @ExceptionHandler(Exception.class)
     public ResponseEntity tratarErro500(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro: " + ex.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(JWTVerificationException.class)
+    public ResponseEntity tratarErroTokenInválido(){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido ou expirado");
     }
 }
