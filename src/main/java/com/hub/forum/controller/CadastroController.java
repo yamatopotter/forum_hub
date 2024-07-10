@@ -1,7 +1,12 @@
 package com.hub.forum.controller;
 
 import com.hub.forum.domain.DTO.Cadastro.DataCadastro;
+import com.hub.forum.domain.DTO.Usuario.DataUsuario;
 import com.hub.forum.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +23,10 @@ public class CadastroController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Operation(summary = "Criar conta no aplicativo como usuário", tags = {"Cadastro"})
+    @ApiResponse(responseCode = "201", description = "Created", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = DataUsuario.class))
+    })
     @PostMapping
     @Transactional
     public ResponseEntity efetuarCadastro(@RequestBody @Valid DataCadastro dados, UriComponentsBuilder uriComponentsBuilder) {

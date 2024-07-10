@@ -4,6 +4,7 @@ import com.hub.forum.domain.DTO.Cadastro.DataCadastro;
 import com.hub.forum.domain.DTO.Cadastro.DataCadastroFromAdmin;
 import com.hub.forum.domain.DTO.Usuario.DataUsuario;
 import com.hub.forum.domain.DTO.Usuario.UpdateDataUsuario;
+import com.hub.forum.domain.ValidacaoException;
 import com.hub.forum.infra.security.SecurityConfiguration;
 import com.hub.forum.domain.model.Usuario;
 import com.hub.forum.repository.PerfilRepository;
@@ -60,8 +61,14 @@ public class UsuarioService {
 
     public void delete(Long id) {
         isAdmin();
+        Usuario usuarioLogado = usuarioRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         var deleteUser = usuarioRepository.getReferenceById(id);
+
+        if(usuarioLogado.getEmail().equals(deleteUser.getEmail())){
+            throw new ValidacaoException("Não é possivel se excluir.");
+        }
+
         deleteUser.delete();
     }
 
